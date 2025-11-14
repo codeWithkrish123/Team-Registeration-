@@ -52,7 +52,7 @@ exports.registerTeam = async (req, res, next) => {
 
     // Normalize
     members.forEach(m => {
-      m.personalEmail = m.personalEmail.toLowerCase();
+      // m.personalEmail = m.personalEmail.toLowerCase();
       m.collegeEmail = m.collegeEmail.toLowerCase();
     });
 

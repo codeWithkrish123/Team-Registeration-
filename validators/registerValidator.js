@@ -8,11 +8,6 @@ const memberValidation = (prefix) => [
     .notEmpty().withMessage('Full Name is required')
     .isLength({ min: 2, max: 100 }).withMessage('Full Name must be between 2 and 100 characters'),
 
-  body(`${prefix}.personalEmail`)
-    .trim()
-    .notEmpty().withMessage('Personal Email is required')
-    .isEmail().withMessage('Invalid Personal Email'),
-
   body(`${prefix}.collegeEmail`)
     .trim()
     .notEmpty().withMessage('College Email is required')
