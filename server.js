@@ -8,6 +8,7 @@ const xssClean = require('xss-clean');
 const hpp = require('hpp');
 const rateLimit = require('express-rate-limit');
 const apiRoutes = require('./routes/api');
+const joi=require('./validators/registerValidator')
 
 const app = express();
 
@@ -136,6 +137,9 @@ app.use((err, req, res, next) => {
     error: err.message || 'Server Error',
   });
 });
+
+// Clear mongoose models
+delete mongoose.connection.models['Team']; 
 
 // ---- MongoDB ----
 mongoose

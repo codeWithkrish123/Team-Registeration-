@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const ctrl = require('../controllers/registerController');
-const { registerValidation, checkTeamQuery, checkMemberQuery } = require('../validators/registerValidator');
+const registerController = require('../controllers/registerController');
+const { 
+    validateRegistration, 
+    validateTeamQuery, 
+    validateMemberQuery 
+} = require('../validators/registerValidator');
 
-router.get('/check/team', checkTeamQuery, ctrl.checkTeamName);
-router.get('/check/member', checkMemberQuery, ctrl.checkMemberEmail);
-router.post('/register', registerValidation, ctrl.registerTeam);
+// Routes
+// check health ping
+ 
+router.get('/check/team', validateTeamQuery, registerController.checkTeamName);
+router.get('/check/member', validateMemberQuery, registerController.checkMemberEmail);
+router.post('/register', validateRegistration, registerController.registerTeam);
 
 module.exports = router;
