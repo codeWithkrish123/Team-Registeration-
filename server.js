@@ -7,6 +7,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const hpp = require('hpp');
 const rateLimit = require('express-rate-limit');
+const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
 const apiRoutes = require('./routes/api');
 const joi=require('./validators/registerValidator')
 
@@ -98,6 +100,19 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// Cookie Parser Middleware (required for CSRF)
+app.use(cookieParser());
+
+// CSRF Protection
+const csrfProtection = csrf({
+  cookie: true,
+  ignoreMethods: ['GET', 'HEAD', 'OPTIONS']
+});
+
+// Apply CSRF protection to state-changing routes only
+app.use('/api/register', csrfProtection);
+app.use('/api/team-register', csrfProtection);
+
 // Additional Security Headers
 app.use((req, res, next) => {
   // Prevent MIME type sniffing
@@ -112,6 +127,13 @@ app.use((req, res, next) => {
   res.setHeader('Expires', '0');
   res.setHeader('Surrogate-Control', 'no-store');
   next();
+});
+
+// CSRF Token Endpoint
+app.get('/api/csrf-token', csrfProtection, (req, res) => {
+  res.json({
+    csrfToken: req.csrfToken()
+  });
 });
 
 // ---- Routes ----

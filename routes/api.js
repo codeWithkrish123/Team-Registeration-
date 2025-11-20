@@ -14,4 +14,7 @@ router.get('/check/team', validateTeamQuery, registerController.checkTeamName);
 router.get('/check/member', validateMemberQuery, registerController.checkMemberEmail);
 router.post('/register', validateRegistration, registerController.registerTeam);
 
+// New team registration endpoint with CSRF protection
+router.post('/team-register', validateRegistration, registerController.registerTeam);
+
 module.exports = router;
