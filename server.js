@@ -16,6 +16,8 @@ const app = express();
 
 // ---- Security Middleware ----
 // Enhanced Security Middleware
+
+
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -130,11 +132,12 @@ app.use((req, res, next) => {
 });
 
 // CSRF Token Endpoint
-app.get('/api/csrf-token', csrfProtection, (req, res) => {
+app.get('/csrf-token', csrfProtection, (req, res) => {
   res.json({
     csrfToken: req.csrfToken()
   });
 });
+
 
 // ---- Routes ----
 app.use('/api', apiRoutes);
